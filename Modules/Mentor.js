@@ -14,7 +14,7 @@ exports.postMentor = async function (req, res) {
       message: "Mentor created!",
     });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(500).send(error.message);
   }
 };
@@ -22,11 +22,11 @@ exports.postMentor = async function (req, res) {
 //function to add stydents to a mentor
 exports.addStudent = async function (req, res) {
   try {
-    var result = await Mentor.findByIdAndUpdateMany(req.body.id, {
-      $push: { students: req.body.student },
+    var result = await Mentor.findByIdAndUpdate(req.body.id, {
+      $push: { students: req.body.studentId },
     });
 
-    await Student.findByIdAndUpdate(req.body.student, {
+    await Student.findByIdAndUpdate(req.body.studentId, {
       mentorAssigned: true,
     })
     res.json({
@@ -34,7 +34,7 @@ exports.addStudent = async function (req, res) {
     });
   } catch (error) {
     console.log(error);
-    res.send(error.message);
+    res.status(500).send(error.message);
   }
 };
 
@@ -43,9 +43,9 @@ exports.deleteStudent = async function (req, res) {
 
     try {
         var result = await Mentor.findByIdAndUpdate(req.body.id, {
-        $pull: { students: req.body.student },
+        $pull: { students: req.body.studentId },
         });
-        await Student.findByIdAndUpdate(req.body.student, {
+        await Student.findByIdAndUpdate(req.body.studentId, {
         mentorAssigned: false,
         })
         res.json({
@@ -59,16 +59,31 @@ exports.deleteStudent = async function (req, res) {
 
 //function to get all the students assigned to a mentor
 exports.getStudents = async function (req, res) {
-
-  // console.log(req.body.id);
+;
+console.log(req.params.id)
   try {
-    var result = await Mentor.findById(req.body.id,{students:1,_id:0,}).populate({path:'students',select:'name'});
+    var result = await Mentor.findById(req.params.id,{students:1,_id:0,}).populate({path:'students',select:'name'});
     
     if(!result){
       res.send("No students assigned to this mentor");
     }
     res.send(result);
-    console.log(result);
+    
+  } catch (error) {
+    console.log(error);
+    res.send(error.message);
+  }
+}
+
+exports.getMentors = async function (req,res) {
+  try {
+    var result = await Mentor.find({});
+    if(!result){
+      res.send("No mentors found");
+    }
+    else{
+      res.send(result);
+    }
     
   } catch (error) {
     console.log(error);

@@ -10,7 +10,7 @@ var studentModule = require('../Modules/Student');
 //router to create a student
 router.post('/create',studentModule.postStudent);
 //router to get all students who are not assigned to a mentor
-router.get('/getStudents',studentModule.getStudents);
+router.get('/getStudent',studentModule.getStudents);
 
 
 module.exports = router;

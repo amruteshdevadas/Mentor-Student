@@ -20,7 +20,7 @@ exports.postStudent = async function (req, res) {
 exports.getStudents = async function (req, res) {
 
   try {
-    var result = await Student.find({mentorAssigned:false},{name:1,_id:0,});
+    var result = await Student.find({mentorAssigned:false},{name:1});
     res.send(result);
   } catch (error) {
     console.log(error.message);

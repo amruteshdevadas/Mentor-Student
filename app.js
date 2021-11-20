@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongo.connect()
 
 app.use('/', indexRouter);
-app.use('/mentors', mentorsRouter);
-app.use('/students', studentsRouter);
+app.use('/mentor', mentorsRouter);
+app.use('/student', studentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

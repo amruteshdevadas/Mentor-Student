@@ -14,6 +14,7 @@ router.put('/addStudent',mentorModule.addStudent)
 //route to remove student from mentor
 router.put('/removeStudent',mentorModule.deleteStudent)
 //route to get all students assigned to a mentor
-router.get('/getStudents',mentorModule.getStudents);
+router.get('/:id/getStudents',mentorModule.getStudents);
+router.get('/getMentor',mentorModule.getMentors);
 
 module.exports = router;
